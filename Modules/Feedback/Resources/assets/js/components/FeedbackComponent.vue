@@ -167,6 +167,7 @@
 
                 if (this.$refs.file_input.files.length > 5) {
                     this.form_error.files = 'Можно прикрепить не более пяти файлов.';
+                    errors = true;
                 }
 
                 if (files_size > 1024 * 1024 * 40) {
@@ -174,6 +175,8 @@
                         this.form_error.files = 'Общий размер файлов не должен превышать 40 мегабайт.';
                     else
                         this.form_error.files += ' Общий размер файлов не должен превышать 40 мегабайт.';
+
+                    errors = true;
                 }
 
                 return !errors;
