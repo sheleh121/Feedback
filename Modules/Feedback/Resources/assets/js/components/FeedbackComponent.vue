@@ -72,7 +72,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <vue-recaptcha v-if="false" class="float-right"
+                    <vue-recaptcha v-if="button_disabled" class="float-right"
                                    ref="recaptcha"
                                    :sitekey="sitekey"
                                    @verify="captchaVerify"
@@ -165,7 +165,7 @@
                     this.form_error.email = 'Поле обязательно для заполнения.';
                 }
 
-                if (this.$refs.file_input.files.length > 5) {
+                if (this.$refs.file_input.files.length > 9) {
                     this.form_error.files = 'Можно прикрепить не более пяти файлов.';
                 }
 
