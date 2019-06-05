@@ -59,13 +59,20 @@
                     </div>
                     <div class="form-group">
                         <label for="attachments">Вложения</label>
-                        <input ref="file_input" type="file" multiple class="form-control-file" name="attachments[]">
+                        <input
+                                ref="file_input"
+                                type="file" multiple
+                                :class="'form-control-file' + (form_error.files !== null ? ' is-invalid' : '')"
+                                name="attachments[]">
+                        <span v-if="form_error.files !== null" class="invalid-feedback" role="alert">
+                            <strong>{{ form_error.files }}</strong>
+                        </span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <vue-recaptcha v-if="button_disabled" class="float-right"
+                    <vue-recaptcha v-if="false" class="float-right"
                                    ref="recaptcha"
                                    :sitekey="sitekey"
                                    @verify="captchaVerify"
@@ -101,6 +108,7 @@
                     user_name: null,
                     email: null,
                     body: null,
+                    files: null
                 },
                 button_disabled: true,
                 response_content: null,
@@ -114,6 +122,7 @@
 
                 let files = this.$refs.file_input.files
                 let form = new FormData();
+
 
                 for (let i = 0; i < files.length; i++) {
                     form.append('attachments[]', files[i])
@@ -136,20 +145,37 @@
             },
 
             validate () {
-                this.form_error.user_name = this.form_error.email = this.form_error.body = null;
+                this.form_error.user_name = this.form_error.email = this.form_error.body = this.form_error.files  = null;
+                let files_size = 0;
                 let errors = false;
 
+                for( let file of this.$refs.file_input.files) {
+                    files_size += file.size;
+                }
+
                 if (this.form_data.user_name.length < 2 || this.form_data.user_name.length > 25) {
-                    this.form_error.user_name = 'Обязательно для заполнения. От 2 до 25 символов';
+                    this.form_error.user_name = 'Обязательно для заполнения. От 2 до 25 символов.';
                     errors = true;
                 }
                 if (this.form_data.body.length < 10 || this.form_data.body.length > 1000) {
-                    this.form_error.body = 'Обязательно для заполнения. От 10 до 1000 символов';
+                    this.form_error.body = 'Обязательно для заполнения. От 10 до 1000 символов.';
                     errors = true;
                 }
                 if (this.form_data.email.length < 5) {
-                    this.form_error.email = 'Поле обязательно для заполнения'
+                    this.form_error.email = 'Поле обязательно для заполнения.';
                 }
+
+                if (this.$refs.file_input.files.length > 5) {
+                    this.form_error.files = 'Можно прикрепить не более пяти файлов.';
+                }
+
+                if (files_size > 1024 * 1024 * 40) {
+                    if (this.form_error.files == null)
+                        this.form_error.files = 'Общий размер файлов не должен превышать 40 мегабайт.';
+                    else
+                        this.form_error.files += ' Общий размер файлов не должен превышать 40 мегабайт.';
+                }
+
                 return !errors;
             },
 
