@@ -1,0 +1,1 @@
+Vue.component('feedback-component', require('./components/FeedbackComponent.vue').default);

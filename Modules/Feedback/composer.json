@@ -1,0 +1,25 @@
+{
+    "name": "feedback",
+    "description": "",
+    "authors": [
+        {
+            "name": "Sergey Shelekhov",
+            "email": "sheleh121@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Feedback\\Providers\\FeedbackServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Feedback\\": ""
+        }
+    }
+}
