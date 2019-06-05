@@ -165,7 +165,7 @@
                     this.form_error.email = 'Поле обязательно для заполнения.';
                 }
 
-                if (this.$refs.file_input.files.length > 9) {
+                if (this.$refs.file_input.files.length > 5) {
                     this.form_error.files = 'Можно прикрепить не более пяти файлов.';
                 }
 
