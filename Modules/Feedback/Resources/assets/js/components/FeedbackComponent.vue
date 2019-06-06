@@ -7,13 +7,16 @@
             </button>
         </div>
 
-        <div v-if="response_error_content !== null" class="alert alert-danger alert-dismissible" role="alert">
-            {{ response_error_content }}
+        <div v-if="response_errors_content !== null" class="alert alert-danger alert-dismissible" role="alert">
+            Произошли ошибки на сервере, пожалуйста попробуйте позже.
+
+            <div v-for="error in response_errors_content">{{ error }}<br/></div>
+
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form method="post" @submit.prevent="send">
+        <form method="post" @submit.prevent="send" ref="form">
             <div class="row">
                 <div class="col">
                     <div class="form-group">
@@ -112,7 +115,7 @@
                 },
                 button_disabled: true,
                 response_content: null,
-                response_error_content: null
+                response_errors_content: null
             }
         },
 
@@ -135,11 +138,11 @@
                 axios.post('/feedback', form)
                     .then((response) =>{
                         this.response_content = response.data;
-                        this.form_data.user_name = this.form_data.email = this.form_data.body = '';
-                        this.$refs.file_input.files = null;
+                        this.$refs.file_input.value = this.form_data.user_name = this.form_data.email = this.form_data.body = '';
+                        this.button_disabled = true;
                     })
                     .catch(error => {
-                        this.response_error_content = error.response.data.error;
+                        this.response_errors_content = error.response.data.errors;
                         this.button_disabled = true;
                     });
             },

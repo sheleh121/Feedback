@@ -12,6 +12,8 @@ use Modules\Feedback\Entities\AppSetting;
 use Modules\Feedback\Entities\FeedbackAttachment;
 use Modules\Feedback\Entities\FeedbackMessage;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Modules\Feedback\Rules\ValidationFilesCount;
+use Modules\Feedback\Rules\ValidationReCaptcha;
 
 class FeedbackController extends Controller
 {
@@ -53,13 +55,9 @@ class FeedbackController extends Controller
            'user_name' => 'required|string|min:2|max:25'
             ,'email' => 'required|email'
             ,'body' => 'required|string|min:10|max:1000'
+            ,'attachments' => new ValidationFilesCount
+            ,'captcha_token' => new ValidationReCaptcha
         ]);
-
-        if (!$this->checkRecaptcha($request->captcha_token) && config('recaptcha.enabled')) {
-            return response()->json([
-                'error' => 'Ошибка на сервере. Неверный токен ReCaptcha',
-            ], Response::HTTP_BAD_REQUEST);
-        }
 
         $message = new FeedbackMessage;
         $message->user_name = $request->user_name;
@@ -84,7 +82,7 @@ class FeedbackController extends Controller
         $email = AppSetting::where('key', 'support_email')->value('value');
         Mail::to($email)->send(new NotificationAdmin($message));
 
-        return response('Благодарим за обратную связь! В ближайшее время вы получите ответ на указанный адрес электронной почты.', 200);
+        return response('Благодарим за обратную связь! В ближайшее время вы получите ответ на указанный вами адрес электронной почты.', 200);
     }
 
 }
