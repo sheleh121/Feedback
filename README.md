@@ -1,17 +1,14 @@
 # Feedback Laravel
 
-## Назначение
-Форма обратной связи c каптчей и отправкой уведомлений на e-mail
-## Что используется
-* Бэкенд: laravel
-* Фронтенд: vue.js, vue-recaptcha, bootstrap, ReCaptcha 
-## Возможности
-* Отправка e-mail администратору (e-mail указывается в настройках)
-* Админка с возможностью быстрого ответа и удаления сообщений
-* Антиспам ReCaptcha
-## Основные моменты
-* Весь код модуля включая миграции и seeding находится в /Modules/Feedback
-* Для создания удобной модульной архитектуры можно использовать laravel-modules https://github.com/nWidart/laravel-modules
-
-
-
+## Purpose
+Feedback form with captcha and sending notifications by e-mail
+## What is being used
+* Backend: laravel
+* Frontend: vue.js, vue-recaptcha, bootstrap, ReCaptcha
+## Opportunities
+* Sending e-mail to the administrator (e-mail is specified in the settings)
+* Admin panel with the ability to quickly reply and delete messages
+* Antispam ReCaptcha
+## Highlights
+* All module code including migrations and seeding is in /Modules/Feedback
+* To create a convenient modular architecture, you can use laravel-modules https://github.com/nWidart/laravel-modules
